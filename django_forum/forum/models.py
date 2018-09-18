@@ -7,15 +7,15 @@ class Section(models.Model):
     name_section = name of discussion
     created by admins
     """
-    name_section = models.CharField(max_lenght=80)
-    description = models.CharField(max_lenght=150, blank=True, null=True)
+    name_section = models.CharField(max_length=80)
+    description = models.CharField(max_length=150, blank=True, null=True)
     logo = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return self.name_section
 
 class Discussion(models.Model):
-    title = models.CharField(max_leght=120)
+    title = models.CharField(max_length=120)
     data_creation = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="discussion")
     father_discussion = models.ForeignKey(Section, on_delete=models.CASCADE)
