@@ -30,5 +30,5 @@ class Post(models.Model):
     discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.author_post
+        return self.author_post.username
 
