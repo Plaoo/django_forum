@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Homepage</h1>
+{% for section in list_section %}
+    <h5>{{ section.name_section }}</h5>
+        <p>{{ section.description }}</p>
+        <img src="{{ section.logo.url }}" alt="logo section">
+        <hr>
+{% endfor %}
 {% endblock content %}

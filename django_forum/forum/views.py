@@ -9,3 +9,4 @@ class CreateSection(StaffMixing, CreateView):
     template_name = "forum/create_section.html"
     #return to homepage after create a section
     success_url = "/"
+
