@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
-from .models import Section
+from django.http import HttpResponseRedirect
+from .models import Section, Post
 from .mixins import StaffMixing
+from .forms import DiscussionModelForm
 
 class CreateSection(StaffMixing, CreateView):
     model = Section
@@ -15,3 +17,29 @@ def ViewSection(request, pk):
     section = get_object_or_404(Section, pk=pk)
     context = {"section": section}
     return render(request, "forum/single_section.html", context)
+
+def createDiscussion(request, pk):
+    section = get_object_or_404(Section, pk=pk)
+    if request.method == "POST":
+        form = DiscussionModelForm(request.POST)
+        if form.is_valid():
+            discussion = form.save(commit = False)
+            discussion.section_parent = section
+            discussion.author = request.user
+            discussion.save()
+            first_post = Post.objects.create(discussion = discussion, 
+                                             author_post=request.user,
+                                             content = form.cleaned_data["content"]
+                                            )
+            return HttpResponseRedirect("/admin")
+            
+    else:
+        form = DiscussionModelForm()
+    context = {"form":form,
+               "section":section}
+
+    return render(request, "forum/create_discussion.html", context)
+
+
+
+ 

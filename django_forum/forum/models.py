@@ -35,4 +35,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.author_post.username
+    
+    class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Post"
+        
 
