@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from .models import Section, Post
 from .mixins import StaffMixing
 from .forms import DiscussionModelForm
@@ -18,6 +19,7 @@ def ViewSection(request, pk):
     context = {"section": section}
     return render(request, "forum/single_section.html", context)
 
+@login_required
 def createDiscussion(request, pk):
     section = get_object_or_404(Section, pk=pk)
     if request.method == "POST":
