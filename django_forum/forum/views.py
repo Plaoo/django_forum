@@ -47,7 +47,3 @@ def viewDiscussion(request, pk):
     posts_discussion = Post.objects.filter(discussion=discussion)
     context = {"discussion":discussion, "posts_discussion":posts_discussion}
     return render(request, "forum/single_discussion.html", context)
-
-
-
- 
