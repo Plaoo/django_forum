@@ -11,8 +11,8 @@
 <h6>{{ discussion.data_creation }}</h6>
 <div class="card my-3">
     <div class="card-header">
-        <h3>By: {{ post.author_post }}</h3>
-        <h6>{{ post.data_creation }}</h6>
+        <h6>{{ post.author_post }} - {{ post.data_creation }}</h6>
+        
         <h4>{{ post.content }}</h4>
 
 
@@ -20,5 +20,7 @@
     </div>
 </div>
 {% endfor %}
+
+{% include 'forum/form_reply.html' %}
 
 {% endblock content %}

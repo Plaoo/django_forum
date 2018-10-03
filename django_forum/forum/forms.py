@@ -13,3 +13,10 @@ class DiscussionModelForm(forms.ModelForm):
         fields = ["title", "content"]
         widgets = {"title":forms.TextInput(attrs={"placeholder": "Title"})
         }
+
+class PostModelForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ["content"]
+
