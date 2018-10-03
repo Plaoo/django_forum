@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import Section, Post
+from .models import Section, Post, Discussion
 from .mixins import StaffMixing
 from .forms import DiscussionModelForm
 
@@ -41,6 +41,12 @@ def createDiscussion(request, pk):
                "section":section}
 
     return render(request, "forum/create_discussion.html", context)
+
+def viewDiscussion(request, pk):
+    discussion = get_object_or_404(Discussion, pk=pk)
+    posts_discussion = Post.objects.filter(discussion=discussion)
+    context = {"discussion":discussion, "posts_discussion":posts_discussion}
+    return render(request, "forum/single_discussion.html", context)
 
 
 
