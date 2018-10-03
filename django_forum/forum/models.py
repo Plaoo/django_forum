@@ -23,6 +23,9 @@ class Discussion(models.Model):
     data_creation = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="discussion")
     section_membership = models.ForeignKey(Section, on_delete=models.CASCADE)
+    
+    def get_absolute_url(self):
+        return reverse("view_discussion", kwargs={"pk": self.pk})
 
     def __str__(self):
         return self.title
@@ -39,4 +42,3 @@ class Post(models.Model):
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Post"
-        

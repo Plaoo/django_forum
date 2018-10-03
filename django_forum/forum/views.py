@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import Section, Post, Discussion
 from .mixins import StaffMixing
+from .models import Discussion, Post, Section
 from .forms import DiscussionModelForm
 
 class CreateSection(StaffMixing, CreateView):
@@ -16,7 +16,9 @@ class CreateSection(StaffMixing, CreateView):
 
 def ViewSection(request, pk):
     section = get_object_or_404(Section, pk=pk)
-    context = {"section": section}
+    discussion_section = Discussion.objects.filter(section_membership=section).order_by("-data_creation")
+    context = {"section": section, 
+                "discussion":discussion_section}
     return render(request, "forum/single_section.html", context)
 
 @login_required
@@ -33,7 +35,7 @@ def createDiscussion(request, pk):
                                              author_post=request.user,
                                              content = form.cleaned_data["content"]
                                             )
-            return HttpResponseRedirect("/admin")
+            return HttpResponseRedirect(discussion.get_absolute_url())
             
     else:
         form = DiscussionModelForm()
