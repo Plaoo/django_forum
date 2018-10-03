@@ -29,6 +29,10 @@ class Discussion(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name = "Discussion"
+        verbose_name_plural = "Discussions"
 
 class Post(models.Model):
     author_post = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
@@ -36,8 +40,8 @@ class Post(models.Model):
     data_creation = models.DateTimeField(auto_now_add=True)
     discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.author_post.username
+    # def __str__(self):
+    #     return self.author_post.username
     
     class Meta:
         verbose_name = "Post"

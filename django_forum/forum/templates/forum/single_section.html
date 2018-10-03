@@ -10,7 +10,7 @@
         <h6 class="card-text">{{ section.description }}</h6>
     </div>
     <div class="card-body">
-        {% for d in discussion %}
+        {% for d in discussions %}
         <p><strong><a href="{{ d.get_absolute_url }}">{{ d.title }} </a></strong> By: {{ d.author }}</p>
     </div>
 </div>
