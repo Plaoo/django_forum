@@ -9,11 +9,12 @@
         <h3>{{ section.name_section }}</h3>
         <h6 class="card-text">{{ section.description }}</h6>
     </div>
+    <!-- </div> -->
+    {% for d in discussion %}
     <div class="card-body">
-        {% for d in discussions %}
         <p><strong><a href="{{ d.get_absolute_url }}">{{ d.title }} </a></strong> By: {{ d.author }}</p>
     </div>
-</div>
     {% endfor %}
+</div>
 
 {% endblock content %}
