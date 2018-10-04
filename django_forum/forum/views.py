@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.core.paginator import Paginator
 from .mixins import StaffMixing
 from .models import Discussion, Post, Section
 from .forms import DiscussionModelForm, PostModelForm
@@ -48,9 +49,14 @@ def createDiscussion(request, pk):
 def viewDiscussion(request, pk):
     discussion = get_object_or_404(Discussion, pk=pk)
     posts_discussion = Post.objects.filter(discussion=discussion)
+
+    paginator = Paginator(posts_discussion, 5)
+    page = request.GET.get("pages")
+    posts = paginator.get_page(page)
+
     form_reply = PostModelForm()
     context = {"discussion":discussion, 
-                "posts_discussion":posts_discussion, 
+                "posts_discussion":posts, 
                 "form_reply":form_reply}
     return render(request, "forum/single_discussion.html", context)
 
@@ -65,6 +71,11 @@ def addReply(request, pk):
             form.instance.author_post = request.user
             form.save()
             url_discussion = reverse("view_discussion", kwargs={'pk': pk})
-            return HttpResponseRedirect(url_discussion)
+            pages_in_discussion = discussion.get_n_pages()
+            if pages_in_discussion > 1:
+                success_url = url_discussion + "?pages=" + str(pages_in_discussion)
+                return HttpResponseRedirect(success_url)
+            else:
+                return HttpResponseRedirect(url_discussion)
     else:
         HttpResponseBadRequest()

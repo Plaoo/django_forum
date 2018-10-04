@@ -8,7 +8,7 @@
 {% for post in posts_discussion %}
 <div class="card my-3">
 
-    {% if forloop.first %}
+    {% if forloop.first and not "page" in request.get_full_path %}
     <div class="card-header pb-0">
         <h3><strong>{{ discussion.title }}</strong></h3>
         <h5> Section:{{ discussion.section_membership }}</h5>
@@ -29,11 +29,31 @@
 </div>
 {% endfor %}
 
-{% if request.user.is_authenticated %}
-{% include 'forum/form_reply.html' %}
-{% else %}
-<div class="alert alert-info" role="alert">
-    You need to<a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a>
+<div class="text-right">
+    <span class="step-links">
+
+                {% if posts_discussion.has_previous %}
+                    <a href="?pages=1">&laquo; first</a>
+                    <a href="?pages={{ posts_discussion.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ posts_discussion.number }} of {{ posts_discussion.paginator.num_pages }}.
+                </span>
+        
+                {% if posts_discussion.has_next %}
+                    <a href="?pages={{ posts_discussion.next_page_number }}">next</a>
+                    <a href="?pages={{ posts_discussion.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+    </span>
 </div>
+
+{% if request.user.is_authenticated %}
+    {% include 'forum/form_reply.html' %}
+{% else %}
+    <div class="alert alert-info" role="alert">
+        You need to<a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a>
+    </div>
 {% endif %}
+
 {% endblock content %}

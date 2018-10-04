@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+import math
 # Create your models here.
 
 class Section(models.Model):
@@ -32,6 +33,12 @@ class Discussion(models.Model):
     
     def get_absolute_url(self):
         return reverse("view_discussion", kwargs={"pk": self.pk})
+
+    def get_n_pages(self):
+        posts_discussion = self.post_set.count()
+        n_pages = math.ceil(posts_discussion / 5)
+        return n_pages
+
 
     def __str__(self):
         return self.title
