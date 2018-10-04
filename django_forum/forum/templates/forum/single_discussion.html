@@ -6,21 +6,34 @@
 {% block content %}
 
 {% for post in posts_discussion %}
-<h1><strong>{{ discussion.title }}</strong></h1>
-<h5> Section:{{ discussion.section_membership }}</h5>
-<h6>{{ discussion.data_creation }}</h6>
 <div class="card my-3">
-    <div class="card-header">
-        <h6>{{ post.author_post }} - {{ post.data_creation }}</h6>
-        
-        <h4>{{ post.content }}</h4>
 
-
-        <h6 class="card-text">{{ section.description }}</h6>
+    {% if forloop.first %}
+    <div class="card-header pb-0">
+        <h3><strong>{{ discussion.title }}</strong></h3>
+        <h5> Section:{{ discussion.section_membership }}</h5>
     </div>
+
+    {% endif %}
+</div>
+
+<div class="card my-3">
+
+    <h5 class="card-header pb-0 py-0"><a href="{% url 'user_profile' username=post.author_post.username %}">{{ post.author_post }}</a> -  Join date: {{ post.author_post.date_joined|date:"M Y" }}<p class="text-muted">{{ post.data_creation|date:"r" }}</p>
+    </h5>
+
+    <h5>{{ post.content|linebreaks }}</h5>
+
+    <h6 class="card-text">{{ section.description }}</h6>
+
 </div>
 {% endfor %}
 
+{% if request.user.is_authenticated %}
 {% include 'forum/form_reply.html' %}
-
+{% else %}
+<div class="alert alert-info" role="alert">
+    You need to<a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a>
+</div>
+{% endif %}
 {% endblock content %}

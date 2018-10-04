@@ -44,6 +44,7 @@ def createDiscussion(request, pk):
 
     return render(request, "forum/create_discussion.html", context)
 
+@login_required
 def viewDiscussion(request, pk):
     discussion = get_object_or_404(Discussion, pk=pk)
     posts_discussion = Post.objects.filter(discussion=discussion)
