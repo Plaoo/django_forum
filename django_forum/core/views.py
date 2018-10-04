@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
 from forum.models import Section
 
@@ -13,7 +14,7 @@ class HomeView(ListView):
     template_name = 'core/homepage.html'
     context_object_name = "list_section"
 
-class UserList(ListView):
+class UserList(LoginRequiredMixin, ListView):
     model = User
     context_object_name = ''
     template_name='core/users.html'
