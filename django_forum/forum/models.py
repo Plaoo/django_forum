@@ -17,6 +17,12 @@ class Section(models.Model):
     def get_absolute_url(self):
         return reverse("view_section", kwargs={"pk": self.pk})
     
+    def get_last_discussions(self):
+        return Discussion.objects.filter(section_membership = self).order_by("-data_creation")[:2]
+
+    def get_number_of_posts_in_section(self):
+        return Post.objects.filter(discussion__section_membership=self).count()
+    
 
 class Discussion(models.Model):
     title = models.CharField(max_length=120)
