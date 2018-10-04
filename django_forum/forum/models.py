@@ -21,7 +21,7 @@ class Section(models.Model):
 class Discussion(models.Model):
     title = models.CharField(max_length=120)
     data_creation = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="discussion")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="discussions")
     section_membership = models.ForeignKey(Section, on_delete=models.CASCADE)
     
     def get_absolute_url(self):

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
-from forum.models import Section
+from forum.models import Discussion, Section
 
 
 # Create your views here.
@@ -21,6 +21,7 @@ class UserList(LoginRequiredMixin, ListView):
 
 def userProfileView(request, username):
     user = get_object_or_404(User, username=username)
-    context ={"user": user}
+    discussion_user = Discussion.objects.filter(author = user).order_by("-pk")
+    context ={"user": user, "discussion_user":discussion_user}
     return render(request, 'core/user_profile.html', context)
 

@@ -15,6 +15,7 @@
         <p><strong><a href="{{ d.get_absolute_url }}">{{ d.title }} </a></strong> By: {{ d.author }}</p>
     </div>
     {% endfor %}
+    <a class=" btn btn-sm btn-info" href="{% url 'create_discussion' pk=section.pk %}">Create a new Discussion</a>
 </div>
 
 {% endblock content %}

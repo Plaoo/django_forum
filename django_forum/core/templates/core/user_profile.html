@@ -1,8 +1,46 @@
 {% extends 'base.html' %}
 
-{% block head_title %}{{ block.super }} | {{ user }}{% endblock head_title %}
+{% block head_title %}{{ block.super }} - {{ user }}{% endblock head_title %}
 {% block content %}
+<div class="row">
+    <div class="col-4">
+        <div class="card my-2">
+            <div class="card-header">
+                <h4>{% if request.user == user %} Your {% endif %} profile</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">@{{ user }}</p>
+                <p class="mb-0">Join date: {{ user.date_joined|date:"M Y" }}</p>
+                <p class="mb-0"></p>Posts: {{ user.posts.count }}</p>
 
-    <h4>{% if request.user == user %} Your {% endif %} profile</h4>
-    <h1>User: {{ user }}</h1>
+            </div>
+            <div class="card-footer"></div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card my-2">
+            <div class="card-header">
+                <h4>Discussions</h4>
+            </div>
+            <div class="card-body">
+                {% for discussion in discussion_user %}
+                <a href="{{ discussion.get_absolute_url }}">{{ discussion.title }}</a>
+                <p class="text-muted">{{ discussion.section_membership }}</p>
+                {% empty %}
+                    {% if request.user != user %}
+                        <p> {{ user }} has not created any discussion</p>
+                    {% else %}
+                     <p>You have not created some discussion!</p>
+                     {% endif %}
+
+                {% endfor %}
+            </div>
+            <div class="card-footer"></div>
+
+        </div>
+
+
+    </div>
+</div>
+
 {% endblock content %}
