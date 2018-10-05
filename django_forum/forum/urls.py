@@ -7,5 +7,7 @@ urlpatterns = [
     path('section/<int:pk>/create_discussion/', views.createDiscussion, name="create_discussion"),
     path('discussion/<int:pk>/', views.viewDiscussion, name="view_discussion"),
     path('discussion/<int:pk>/reply/', views.addReply, name="reply_discussion"),
+    path('discussion/<int:id>/remove_post/<int:pk>/', views.DeletePost.as_view(), name="delete_post"),
+
 
 ]

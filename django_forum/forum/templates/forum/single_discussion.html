@@ -19,8 +19,15 @@
 
 <div class="card my-3">
 
-    <h5 class="card-header pb-0 py-0"><a href="{% url 'user_profile' username=post.author_post.username %}">{{ post.author_post }}</a> -  Join date: {{ post.author_post.date_joined|date:"M Y" }}<p class="text-muted">{{ post.data_creation|date:"r" }}</p>
+    <h5 class="card-header pb-0 py-0"><a href="{% url 'user_profile' username=post.author_post.username %}">{{ post.author_post }}</a> -  Join date: {{ post.author_post.date_joined|date:"M Y" }}
+        <p class="text-muted">{{ post.data_creation|date:"r" }}
+            {% if request.user == post.author_post %}
+                <a href="{% url 'delete_post' id=discussion.pk pk=post.pk %}">| <i class="fas fa-trash-alt"></i></a>
+            {% endif %}
+        </p>
+
     </h5>
+
 
     <h5>{{ post.content|linebreaks }}</h5>
 

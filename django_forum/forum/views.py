@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -79,3 +79,11 @@ def addReply(request, pk):
                 return HttpResponseRedirect(url_discussion)
     else:
         HttpResponseBadRequest()
+
+class DeletePost(DeleteView):
+    model = Post
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author_post_id=self.request.user.id)
